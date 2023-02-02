@@ -23,27 +23,12 @@ namespace Klororf.ExcelReader.Enumerator
                 
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                   
-                    // Choose one of either 1 or 2:
-
-                    // 1. Use the reader methods
-                    do
-                    {
-                        while (reader.Read())
-                        {
-                            // reader.GetDouble(0);
-                        }
-                    } while (reader.NextResult());
-
-                    // 2. Use the AsDataSet extension method
                     ExcelDataSetConfiguration ed = new ExcelDataSetConfiguration();
                     ed.ConfigureDataTable= (x) => new ExcelDataTableConfiguration()
                     {
                         UseHeaderRow = true
                     };
                     ds = reader.AsDataSet(ed);
-
-                    // The result of each spreadsheet is in result.Tables
                 }
             }
 
