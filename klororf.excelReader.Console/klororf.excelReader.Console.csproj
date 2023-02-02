@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Microsoft.Office.Interop.Excel" />
+    <None Remove="ExcelDataReader" />
+    <None Remove="System.IO.Packaging" />
+    <None Remove="DocumentFormat.OpenXml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Klororf.ExcelReader.Enumerator\Klororf.ExcelReader.Enumerator.csproj" />
+  </ItemGroup>
+</Project>
