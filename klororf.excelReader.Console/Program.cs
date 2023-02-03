@@ -1,16 +1,10 @@
 ﻿
-// See https://aka.ms/new-console-template for more information
+// For example only
 using Klororf.ExcelReader.Enumerator;
 
-Console.WriteLine("Hello, World!");
 string filePath = "/Users/danielcarnicero/Downloads/SampleData.xlsx";
 try
 {
-    var enumerator = new Klororf.ExcelReader.Enumerator.Converter(filePath);
-
-
-    var c = enumerator.ConvertToDataSet();
-
     var x = new Fill<SalesOrders>("SalesOrders")
         .FillFrom("Region", (x) => x.Region)
         .FillFrom("Rep", x=>x.Rep)
@@ -21,17 +15,13 @@ try
                   (x)=> {
                       var c = int.Parse(x.ToString().Substring(0,1));
                       return c; })
-        .Convert(c);
+        .ConvertWithExcel(filePath);
     
 }
 catch (Exception ex)
 {
 
     string error = ex.Message;
-}
-static int cs(object x)
-{
-    return 0;
 }
 
 
