@@ -1,4 +1,4 @@
-﻿
+
 using Klororf.ExcelReader.Enumerator;
 string filePath = "/Users/test/Downloads/SampleData.xlsx";
 try
@@ -22,7 +22,6 @@ catch (Exception ex)
 
     string error = ex.Message;
 }
-
 public class SalesOrders
 {
     public string Region { get; set; }

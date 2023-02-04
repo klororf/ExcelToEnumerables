@@ -21,7 +21,12 @@ namespace Klororf.ExcelReader.Enumerator
             this.fromTable = fromTable;
             this.Operations = Array.Empty<ConvertOperation>();
         }
-
+        ///
+        ///<summary>Fill with the column provided by name the property indicated
+        ///<example>ex: FillFrom("name",p=>p.Name)</example>
+        ///</summary>
+        /// <param name="column">The excel column used</param>
+        /// <param name="lambda">Lambda Function for select the property of the class to fill</param>
         public Fill<TSource> FillFrom<TMember>(string column, Expression<Func<TSource, TMember>> lambda)
         {
 
@@ -34,7 +39,14 @@ namespace Klororf.ExcelReader.Enumerator
             this.Operations = this.Operations.Append(new(column, propInfo));
             return this;
         }
-        public Fill<TSource> FillFrom<TMember>(string column, Expression<Func<TSource, TMember>> lambda,Func<object, object?> func)
+        ///
+        ///<summary>Fill with the column provided by name the property indicated
+        ///<example>ex: FillFrom("name",p=>p.Name,x=>x.Substring(0,10))</example>
+        ///</summary>
+        /// <param name="column">The excel column used</param>
+        /// <param name="lambda">Lambda Function for select the property of the class to fill</param>
+        /// <param name="func">Lambda Function to apply to the values for fill property conversion</param>
+        public Fill<TSource> FillFrom<TMember>(string column, Expression<Func<TSource, TMember>> lambda, Func<object, object?> func)
         {
 
             MemberExpression member = lambda.Body as MemberExpression;
@@ -43,10 +55,9 @@ namespace Klororf.ExcelReader.Enumerator
             PropertyInfo propInfo = member.Member as PropertyInfo;
             if (propInfo == null)
                 throw new NoMemberException(lambda.Body.ToString());
-            this.Operations = this.Operations.Append(new(column, propInfo,(Func<object?,object?>)func));
+            this.Operations = this.Operations.Append(new(column, propInfo, (Func<object?, object?>)func));
             return this;
         }
-
         public IEnumerable<TSource> Convert()
         {
             return Convert(this.DataSet);
@@ -81,7 +92,7 @@ namespace Klororf.ExcelReader.Enumerator
         private IEnumerable<string> ColumnsNotExists(DataTable dt, IEnumerable<string> columns)
         {
             IEnumerable<string> ret = Array.Empty<string>();
-            return columns.Except(dt.Columns.Cast<DataColumn>().Select(x=>x.ColumnName)); 
+            return columns.Except(dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName));
         }
 
         private bool TableExist(DataSet ds, string table)
