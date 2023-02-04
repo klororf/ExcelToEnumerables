@@ -1,11 +1,10 @@
-﻿
-// For example only
-using Klororf.ExcelReader.Enumerator;
 
-string filePath = "/Users/danielcarnicero/Downloads/SampleData.xlsx";
+using Klororf.ExcelReader.Enumerator;
+string filePath = "/Users/test/Downloads/SampleData.xlsx";
 try
 {
-    var x = new Fill<SalesOrders>("SalesOrders")
+    Filler<SalesOrders>.SetFilePath(filePath);
+    var x = Filler<SalesOrders>.GetFiller(nameof(SalesOrders))
         .FillFrom("Region", (x) => x.Region)
         .FillFrom("Rep", x=>x.Rep)
         .FillFrom("Units", x=>x.Units)
@@ -15,17 +14,15 @@ try
                   (x)=> {
                       var c = int.Parse(x.ToString().Substring(0,1));
                       return c; })
-        .ConvertWithExcel(filePath);
-    
+        .Convert();
+    ;
 }
 catch (Exception ex)
 {
 
     string error = ex.Message;
 }
-
-
-public class SalesOrders : Klororf.ExcelReader.Enumerator.Models.Sheet
+public class SalesOrders
 {
     public string Region { get; set; }
     public string Rep { get; set; }

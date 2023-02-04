@@ -5,16 +5,16 @@ using ExcelDataReader;
 
 namespace Klororf.ExcelReader.Enumerator
 {
-    public class Converter
+    internal class Converter
     {
         private readonly string Path;
-        public Converter(string path)
+        internal Converter(string path)
         {
             this.Path = path;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
-        public DataSet ConvertToDataSet()
+        internal DataSet ConvertToDataSet()
         {
             DataSet ds = null;
             using (var stream = File.Open(Path, FileMode.Open, FileAccess.Read))

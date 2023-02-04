@@ -12,9 +12,10 @@ namespace Klororf.ExcelReader.Enumerator
     {
         private readonly Type type;
         private readonly string fromTable;
+        private DataSet DataSet { get; set; }
         public IEnumerable<ConvertOperation> Operations { get; private set; }
 
-        public Fill(string fromTable)
+        internal Fill(string fromTable)
         {
             this.type = typeof(TSource);
             this.fromTable = fromTable;
@@ -57,12 +58,12 @@ namespace Klororf.ExcelReader.Enumerator
             this.Operations = this.Operations.Append(new(column, propInfo, (Func<object?, object?>)func));
             return this;
         }
-        public IEnumerable<TSource> ConvertWithExcel(string filePath){
-            Converter converter = new Converter(filePath);
-            DataSet ds = converter.ConvertToDataSet();
-            return Convert(ds);
+        public IEnumerable<TSource> Convert()
+        {
+            return Convert(this.DataSet);
         }
-        public IEnumerable<TSource> Convert(DataSet ds)
+
+        private IEnumerable<TSource> Convert(DataSet ds)
         {
             IEnumerable<TSource> ret = Array.Empty<TSource>();
             if (!TableExist(ds, fromTable))
@@ -98,6 +99,12 @@ namespace Klororf.ExcelReader.Enumerator
         {
             IEnumerable<DataTable> dts = ds.Tables.Cast<DataTable>();
             return dts.Any(x => x.TableName.Equals(table));
+        }
+
+        internal Fill<TSource> FromDataSet(DataSet dataSet)
+        {
+            this.DataSet = dataSet;
+            return this;
         }
     }
 }
